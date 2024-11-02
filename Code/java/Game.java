@@ -46,7 +46,7 @@ public class Game extends Application {
     
         Button optionsButton = new Button("Options");
         optionsButton.setStyle("-fx-font-size: 20px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 5px; -fx-border-radius: 5px;");
-        optionsButton.setOnAction(e -> showOptionsScreen(primaryStage)); // Update to your options screen method
+        optionsButton.setOnAction(e -> showOptionsScreen(primaryStage));
     
         Button exitButton = new Button("Exit");
         exitButton.setStyle("-fx-font-size: 20px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 5px; -fx-border-radius: 5px;");
