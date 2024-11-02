@@ -154,7 +154,6 @@ private void showSkipWarning(Stage primaryStage, MediaPlayer mediaPlayer) {
         MediaView mediaView = new MediaView(mediaPlayer);
     
         Button skipButton = new Button("Skip Cutscene");
-       
         skipButton.setOnAction(e -> showSkipWarning2(primaryStage, mediaPlayer));
     
         StackPane cutsceneRoot = new StackPane();
@@ -167,7 +166,8 @@ private void showSkipWarning(Stage primaryStage, MediaPlayer mediaPlayer) {
     
         mediaPlayer.setOnEndOfMedia(() -> {
             System.out.println("Cutscene ended!");
-            fadeOutAndShowGameScene(primaryStage);
+            mediaPlayer.stop(); 
+            showTalkRoom(primaryStage);
         });
     }
     
