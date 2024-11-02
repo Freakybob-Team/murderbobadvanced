@@ -31,21 +31,80 @@ public class Game extends Application {
 
     private void showHomeScreen(Stage primaryStage) {
         StackPane homeRoot = new StackPane();
-        homeRoot.setStyle("-fx-background-color: #f0f0f0;");
-        Label welcomeLabel = new Label("Welcome to MurderbobADVANCED!");
-        welcomeLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #333;");
+        homeRoot.setStyle("-fx-background-color: #ead53e;");
+    
+       
+        Image logoImage = new Image("file:src/Assets/HomeScreen/mba_logo.png");
+        ImageView logoImageView = new ImageView(logoImage);
+        logoImageView.setFitHeight(300); 
+        logoImageView.setPreserveRatio(true);
+    
+     
         Button startButton = new Button("Start Game");
         startButton.setStyle("-fx-font-size: 20px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 5px; -fx-border-radius: 5px;");
         startButton.setOnAction(e -> showCutscene(primaryStage));
-        VBox homeLayout = new VBox(20, welcomeLabel, startButton);
-        homeLayout.setAlignment(javafx.geometry.Pos.CENTER);
-        homeLayout.setStyle("-fx-padding: 20px;");
-        homeRoot.getChildren().add(homeLayout);
+    
+        Button optionsButton = new Button("Options");
+        optionsButton.setStyle("-fx-font-size: 20px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 5px; -fx-border-radius: 5px;");
+        optionsButton.setOnAction(e -> showOptionsScreen(primaryStage)); // Update to your options screen method
+    
+        Button exitButton = new Button("Exit");
+        exitButton.setStyle("-fx-font-size: 20px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 5px; -fx-border-radius: 5px;");
+        exitButton.setOnAction(e -> primaryStage.close());
+    
+       
+        VBox topLayout = new VBox(10, logoImageView);
+        topLayout.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+        topLayout.setStyle("-fx-padding: 20px;");
+    
+       
+        VBox buttonLayout = new VBox(10, startButton, optionsButton, exitButton);
+        buttonLayout.setAlignment(javafx.geometry.Pos.CENTER);
+        buttonLayout.setStyle("-fx-padding: 20px;");
+    
+        
+        VBox mainLayout = new VBox(topLayout, buttonLayout);
+        mainLayout.setAlignment(javafx.geometry.Pos.CENTER);
+    
+        
+        homeRoot.getChildren().add(mainLayout);
+    
         Scene homeScene = new Scene(homeRoot, 800, 600);
         primaryStage.setScene(homeScene);
         primaryStage.setTitle("MurderbobADVANCED - Home");
         primaryStage.show();
     }
+    
+    private void showOptionsScreen(Stage primaryStage) {
+        StackPane optionsRoot = new StackPane();
+        optionsRoot.setStyle("-fx-background-color: #f0f0f0;");
+    
+        
+        Label optionsLabel = new Label("Options");
+        optionsLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #333;");
+    
+        
+        Button backButton = new Button("Back to Home");
+        backButton.setStyle("-fx-font-size: 20px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 5px; -fx-border-radius: 5px;");
+        backButton.setOnAction(e -> showHomeScreen(primaryStage));
+    
+       
+
+    
+       
+        VBox optionsLayout = new VBox(20, optionsLabel, backButton);
+        optionsLayout.setAlignment(javafx.geometry.Pos.CENTER);
+        optionsLayout.setStyle("-fx-padding: 20px;");
+    
+        
+        optionsRoot.getChildren().add(optionsLayout);
+    
+        Scene optionsScene = new Scene(optionsRoot, 800, 600);
+        primaryStage.setScene(optionsScene);
+        primaryStage.setTitle("MurderbobADVANCED - Options");
+        primaryStage.show();
+    }
+    
 
     private void showCutscene(Stage primaryStage) {
     String videoPath = "src\\cutscenes\\edited\\cutscene1.mp4";
