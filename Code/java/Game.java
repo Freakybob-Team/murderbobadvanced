@@ -10,14 +10,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.nio.file.Paths;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+
 
 public class Game extends Application {
     private MediaPlayer backgroundMusicPlayer;
@@ -106,12 +105,12 @@ private void showSkipWarning(Stage primaryStage, MediaPlayer mediaPlayer) {
     }
 
     private void showGameScene(Stage primaryStage) {
-        Image backgroundImage = new Image(Paths.get("src\\Assets\\Room.png").toUri().toString());
+        Image backgroundImage = new Image(Paths.get("src\\Assets\\Start of the game Room\\Room.png").toUri().toString());
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.setFitWidth(800);
         backgroundImageView.setFitHeight(600);
         backgroundImageView.setPreserveRatio(false);
-        Image characterImage = new Image(Paths.get("src\\Assets\\Sad_Spongebob_sprite.png").toUri().toString());
+        Image characterImage = new Image(Paths.get("src\\Assets\\Start of the game Room\\Sad_Spongebob_sprite.png").toUri().toString());
         ImageView characterImageView = new ImageView(characterImage);
         characterImageView.setFitWidth(300);
         characterImageView.setFitHeight(200);
@@ -122,7 +121,7 @@ private void showSkipWarning(Stage primaryStage, MediaPlayer mediaPlayer) {
         Button lookOutsideButton = new Button("Look Outside");
         lookOutsideButton.setOnAction(e -> showLookOutsideScene(primaryStage));
         Button goToLivingRoomButton = new Button("Go to Living room");
-        goToLivingRoomButton.setOnAction(e -> showLivingRoomScene(primaryStage));
+        goToLivingRoomButton.setOnAction(e -> showCutscene2(primaryStage));
         VBox bottomButtonBox = new VBox(10);
         bottomButtonBox.getChildren().addAll(lookOutsideButton, goToLivingRoomButton);
         bottomButtonBox.setAlignment(javafx.geometry.Pos.BOTTOM_CENTER);
@@ -144,80 +143,84 @@ private void showSkipWarning(Stage primaryStage, MediaPlayer mediaPlayer) {
             characterImageView.setTranslateY((newVal.doubleValue() - characterImageView.getFitHeight()) / 2 - 280);
         });
     }
-
-    private void showLivingRoomScene(Stage primaryStage) {
-        StackPane livingRoomRoot = new StackPane();
-        Image livingRoomImage = new Image(Paths.get("src\\Assets\\Livingroom.png").toUri().toString());
-        ImageView livingRoomImageView = new ImageView(livingRoomImage);
-        livingRoomImageView.setFitWidth(primaryStage.getWidth());
-        livingRoomImageView.setFitHeight(primaryStage.getHeight());
-        livingRoomImageView.setPreserveRatio(false);
+    private void showCutscene2(Stage primaryStage) {
+        stopBackgroundMusic();
     
-        
-        Image freakybobImage = new Image(Paths.get("src\\Assets\\Sad_Spongebob_sprite.png").toUri().toString());
-        ImageView freakybobImageView = new ImageView(freakybobImage);
-        freakybobImageView.setFitWidth(100); 
-        freakybobImageView.setFitHeight(150); 
-        freakybobImageView.setPreserveRatio(true);
-        freakybobImageView.setTranslateX(100); 
-        freakybobImageView.setTranslateY(60); 
+        String videoPath = "src\\cutscenes\\edited\\cutscene2.mp4";
+        Media media = new Media(Paths.get(videoPath).toUri().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setVolume(0.7);
+        MediaView mediaView = new MediaView(mediaPlayer);
     
-        Button goBackButton = new Button("Go Back");
-        goBackButton.setOnAction(e -> showGameScene(primaryStage));
-        
-        Button readNoteButton = new Button("Read Note");
-        Rectangle noteRectangle = new Rectangle(400, 200, Color.WHITE);
-        noteRectangle.setVisible(false);
-        Label noteLabel = new Label("Help, I don't like java anymore - 5quirre1");
-        noteLabel.setStyle("-fx-font-size: 20px;");
-        noteLabel.setVisible(false);
-        readNoteButton.setOnAction(e -> {
-            System.out.println("Reading the note...");
-            noteRectangle.setVisible(true);
-            noteLabel.setVisible(true);
-            noteRectangle.setOnMouseClicked(event -> {
-                noteRectangle.setVisible(false);
-                noteLabel.setVisible(false);
-            });
+        Button skipButton = new Button("Skip Cutscene");
+       
+        skipButton.setOnAction(e -> showSkipWarning2(primaryStage, mediaPlayer));
+    
+        StackPane cutsceneRoot = new StackPane();
+        cutsceneRoot.getChildren().addAll(mediaView, skipButton);
+        StackPane.setAlignment(skipButton, javafx.geometry.Pos.BOTTOM_RIGHT);
+    
+        Scene cutsceneScene = new Scene(cutsceneRoot, 800, 600);
+        primaryStage.setScene(cutsceneScene);
+        primaryStage.setTitle("MurderbobADVANCED - Cutscene2");
+    
+        mediaPlayer.setOnEndOfMedia(() -> {
+            System.out.println("Cutscene ended!");
+            fadeOutAndShowGameScene(primaryStage);
         });
-    
-        VBox readNoteBox = new VBox(10);
-        readNoteBox.getChildren().add(readNoteButton);
-        readNoteBox.setAlignment(javafx.geometry.Pos.BOTTOM_RIGHT);
-        StackPane.setAlignment(readNoteBox, javafx.geometry.Pos.BOTTOM_RIGHT);
-        StackPane.setMargin(readNoteBox, new javafx.geometry.Insets(0, 90, 220, 0));
-        
-        VBox goBackBox = new VBox(10);
-        goBackBox.getChildren().add(goBackButton);
-        goBackBox.setAlignment(javafx.geometry.Pos.BOTTOM_LEFT);
-        StackPane.setAlignment(goBackBox, javafx.geometry.Pos.BOTTOM_LEFT);
-        StackPane.setMargin(goBackBox, new javafx.geometry.Insets(0, 0, 0, 320));
-    
-        livingRoomRoot.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case ESCAPE:
-                    if (noteRectangle.isVisible()) {
-                        noteRectangle.setVisible(false);
-                        noteLabel.setVisible(false);
-                        System.out.println("Note closed with Escape key!");
-                    }
-                    break;
-                default:
-                    break;
-            }
-        });
-    
-        livingRoomRoot.getChildren().addAll(livingRoomImageView, freakybobImageView, noteRectangle, noteLabel, readNoteBox, goBackBox);
-        Scene livingRoomScene = new Scene(livingRoomRoot, primaryStage.getWidth(), primaryStage.getHeight());
-        primaryStage.setScene(livingRoomScene);
-        primaryStage.setTitle("MurderbobADVANCED - Living Room");
-        playBackgroundMusic();
     }
     
-
-    private void playBackgroundMusic() {
+    
+    private void showSkipWarning2(Stage primaryStage, MediaPlayer mediaPlayer) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Skip Cutscene");
+        alert.setHeaderText("WARNING!!");
+        alert.setContentText("IF YOU SKIP THIS CUTSCENE YOU WILL MISS CRUCIAL INFORMATION TO THE PLOT\nARE YOU SURE?");
+        
+        ButtonType yesButton = new ButtonType("Yes");
+        ButtonType noButton = new ButtonType("No");
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        
+        alert.showAndWait().ifPresent(response -> {
+            if (response == yesButton) {
+                mediaPlayer.stop();
+                System.out.println("Cutscene skipped!");
+                fadeOutAndShowTalkRoom(primaryStage);
+            }
+        });
+    }
+        
+private void fadeOutAndShowTalkRoom(Stage primaryStage) {
+    StackPane root = (StackPane) primaryStage.getScene().getRoot();
+    FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1));
+    fadeTransition.setNode(root);
+    fadeTransition.setFromValue(1.0);
+    fadeTransition.setToValue(0.0);
+    fadeTransition.setOnFinished(e -> {
+        stopBackgroundMusic();
+        showTalkRoom(primaryStage);
+    });
+    fadeTransition.play();
+}
+    
+    private void showTalkRoom(Stage primaryStage) {
+        StackPane root = new StackPane();
+        Image backgroundImage = new Image(Paths.get("src\\Assets\\TalkRoom\\interrogation.png").toUri().toString());
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+        backgroundImageView.setFitWidth(800);
+        backgroundImageView.setFitHeight(600);
+        backgroundImageView.setPreserveRatio(false);
+        root.getChildren().add(backgroundImageView);
+        Scene talkRoomScene = new Scene(root, primaryStage.getWidth(), primaryStage.getHeight());
+        primaryStage.setScene(talkRoomScene);
+        primaryStage.setTitle("MurderbobADVANCED - Talk Room");
+        playTalkRoom();
+        primaryStage.show();
+    }
+        private void playBackgroundMusic() {
         if (backgroundMusicPlayer == null) {
-            Media music = new Media(Paths.get("src\\Assets\\sadmusic1.wav").toUri().toString());
+            Media music = new Media(Paths.get("src\\Assets\\Start of the game Room\\sadmusic1.wav").toUri().toString());
             backgroundMusicPlayer = new MediaPlayer(music);
             backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             backgroundMusicPlayer.setVolume(0.5);
@@ -232,10 +235,18 @@ private void showSkipWarning(Stage primaryStage, MediaPlayer mediaPlayer) {
             backgroundMusicPlayer = null;
         }
     }
-
+private void playTalkRoom() {
+    if (backgroundMusicPlayer == null) {
+        Media music = new Media(Paths.get("src\\Assets\\TalkRoom\\interrogation.wav").toUri().toString());
+        backgroundMusicPlayer = new MediaPlayer(music);
+        backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundMusicPlayer.setVolume(0.5);
+        backgroundMusicPlayer.play();
+    }
+}
     private void showLookOutsideScene(Stage primaryStage) {
         StackPane lookOutsideRoot = new StackPane();
-        Image scaryImage = new Image(Paths.get("src\\Assets\\scary.png").toUri().toString());
+        Image scaryImage = new Image(Paths.get("src\\Assets\\Show outside\\scary.png").toUri().toString());
         ImageView scaryImageView = new ImageView(scaryImage);
         scaryImageView.setFitWidth(primaryStage.getWidth());
         scaryImageView.setFitHeight(primaryStage.getHeight());
@@ -257,6 +268,5 @@ private void showSkipWarning(Stage primaryStage, MediaPlayer mediaPlayer) {
         launch(args);
     }
 }
-
 // Change the paths when you want the assets to be right in the github layout, wish. I'm too tired greg
 
