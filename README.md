@@ -6,7 +6,7 @@ Project has been cancelled for now. New updates will not be created for an undef
 <br>
 its also a buggy mess that requires javafx sooo use at your own sanity's risk
 
-I'm sorry that you'll never have the full game of this. I fucking hate java 😭 -5quirre1
+I'm sorry that you'll probably never have the full game. I fucking hate java 😭 -5quirre1
 # notes from dev
 
 Another day... Another dime
