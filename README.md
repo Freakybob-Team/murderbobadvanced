@@ -1,7 +1,8 @@
 # MurderBob ADVANCED
 
 The fucking best game in the world
-
+# WARNING
+Project has been cancelled for now. New updates will not be created for an undefined amount of time.
 # notes from dev
 
 Another day... Another dime
