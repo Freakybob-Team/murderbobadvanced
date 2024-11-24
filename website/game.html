@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MurderbobADVANCED</title>
+    <link rel="icon" type="image/png" href="Assets/HomeScreen/mba_logo.png">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(rgb(38, 37, 37), #a4951e);
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 600%;
+            height: 100%;
+            border-radius: 3px;
+            background: radial-gradient(rgb(247, 194, 1), #9a0505);
+        }
+        #app {
+            border-radius: 7px;
+            width: 800px;
+            height: 600px;
+            margin: auto;
+            border: 2px solid black;
+            position: relative;
+            background: radial-gradient(circle, rgb(0, 0, 0), #ead53e);
+        }
+        .center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .button {
+            padding: 10px 40px;
+            margin: 10px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 20px;
+            color: white;
+            transition: 0.3s;
+        }
+        .button:hover {
+            opacity: 0.8;
+        }
+        .start {
+            background-color: #4CAF50;
+        }
+        .options {
+            background-color: #4CAF50;
+        }
+        .exit {
+            background-color: #f44336;
+        }
+        .hidden {
+            display: none;
+        }
+        #cutscene, #game, #options, #lookOutside {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #cutscene video, #game img, #lookOutside img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #cutscene button, #lookOutside button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        h1 {
+            color:azure;
+        }
+        
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div id="app">
+           
+            <div id="home" class="center">
+                <img src="Assets/HomeScreen/mba_logo.png" alt="Logo" style="width: 300px; margin-bottom: 20px;">
+                <button class="button start" onclick="startGame()">Start Game</button>
+                <button class="button options" onclick="showOptions()">Options</button>
+                <button class="button exit" onclick="quitGame()">Quit</button>
+            </div>
+
+
+    <div id="cutscene" class="hidden">
+        <video id="cutsceneVideo" width="100%" height="auto"></video>
+        <button id="skipButton" onclick="skipCutscene()">Skip Cutscene</button>
+    </div>
+
+
+           
+            <div id="options" class="hidden center">
+                <h1>Options</h1>
+                <button class="button start" onclick="goBackToHome()">Back to Home</button>
+            </div>
+
+            
+            <div id="game" class="hidden">
+                <img src="Assets/Start of the game Room/Room.png" alt="Game Background">
+                <button style="position: absolute; bottom: 350px; left: 650px;" onclick="lookOutside()">Look Outside</button>
+                <button style="position: absolute; bottom: 20px; right: 20px;" onclick="playNextCutscene()">Next</button>
+                <img src="Assets/Start of the game Room/Sad_Spongebob_sprite.png" alt="Spongebob" 
+                     style="position: absolute; top: 200px; left: 300px; width: 150px; height: auto;">
+                <audio id="gameMusic" src="Assets/Start of the game Room/sadmusic1.wav" loop></audio>
+            </div>
+            
+            
+            <div id="lookOutside" class="hidden">
+                <img src="Assets/Show outside/scary.png" alt="Scary">
+                <button onclick="goBackToGame()">Go Back</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const homeScreen = document.getElementById('home');
+        const cutsceneScreen = document.getElementById('cutscene');
+        const optionsScreen = document.getElementById('options');
+        const gameScreen = document.getElementById('game');
+        const lookOutsideScreen = document.getElementById('lookOutside');
+        const cutsceneVideo = document.getElementById('cutsceneVideo');
+        const gameMusic = document.getElementById('gameMusic');
+    
+        function startGame() {
+            homeScreen.classList.add('hidden');
+            optionsScreen.classList.add('hidden');
+            cutsceneScreen.classList.remove('hidden');
+    
+            
+            gameMusic.play();
+            
+            
+            cutsceneVideo.src = "cutscenes/edited/cutscene1.mp4";
+            cutsceneVideo.load();
+            cutsceneVideo.play();
+    
+            
+            gameMusic.pause();
+        }
+    
+        function skipCutscene() {
+            cutsceneVideo.pause();
+            fadeOutAndTransition();
+            
+           
+            gameMusic.play();
+        }
+    
+        function showOptions() {
+            homeScreen.classList.add('hidden');
+            optionsScreen.classList.remove('hidden');
+        }
+    
+        function goBackToHome() {
+            optionsScreen.classList.add('hidden');
+            homeScreen.classList.remove('hidden');
+        }
+    
+        function lookOutside() {
+            gameScreen.classList.add('hidden');
+            lookOutsideScreen.classList.remove('hidden');
+        }
+    
+        function goBackToGame() {
+            lookOutsideScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+        }
+    
+        function fadeOutAndTransition() {
+          
+            cutsceneScreen.classList.add('fade-out');
+            setTimeout(() => {
+               
+                cutsceneScreen.classList.add('hidden');
+                gameScreen.classList.remove('hidden');
+                
+                gameMusic.play();
+            }, 1000); 
+        }
+    
+        
+        cutsceneVideo.addEventListener('ended', playNextCutscene);
+    
+        function playNextCutscene() {
+            alert("not yet");
+        }
+        function quitGame() {
+            alert("idk greg");
+        }
+    </script>
+    
+</body>
+</html>
