@@ -99,10 +99,20 @@
             opacity: 0;
             transition: opacity 1s ease-out;
         }
+        #loading {
+            background: url('loader.gif') no-repeat center center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 9999999;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    
+    <div id="loading"></div>
     <div class="container">
         <div id="app">
            
@@ -206,6 +216,15 @@ function goBackToGame() {
             alert("idk greg");
         }
     </script>
+        <script>
+            function hideLoader() {
+        $('#loading').hide();
+    }
     
+    $(window).ready(hideLoader);
+    
+    // Strongly recommended: Hide loader after 20 seconds, even if the page hasn't finished loading
+    setTimeout(hideLoader, 20 * 1000);
+        </script>
 </body>
 </html>
