@@ -153,65 +153,51 @@
         const cutsceneVideo = document.getElementById('cutsceneVideo');
         const gameMusic = document.getElementById('gameMusic');
     
-        function startGame() {
-            homeScreen.classList.add('hidden');
-            optionsScreen.classList.add('hidden');
-            cutsceneScreen.classList.remove('hidden');
-    
-            
-            gameMusic.play();
-            
-            
-            cutsceneVideo.src = "cutscenes/edited/cutscene1.mp4";
-            cutsceneVideo.load();
-            cutsceneVideo.play();
-    
-            
-            gameMusic.pause();
-        }
-    
-        function skipCutscene() {
-            cutsceneVideo.pause();
-            fadeOutAndTransition();
-            
-           
-            gameMusic.play();
-        }
-    
-        function showOptions() {
-            homeScreen.classList.add('hidden');
-            optionsScreen.classList.remove('hidden');
-        }
-    
-        function goBackToHome() {
-            optionsScreen.classList.add('hidden');
-            homeScreen.classList.remove('hidden');
-        }
-    
-        function lookOutside() {
-            gameScreen.classList.add('hidden');
-            lookOutsideScreen.classList.remove('hidden');
-        }
-    
-        function goBackToGame() {
-            lookOutsideScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
-        }
-    
-        function fadeOutAndTransition() {
-          
-            cutsceneScreen.classList.add('fade-out');
-            setTimeout(() => {
-               
-                cutsceneScreen.classList.add('hidden');
-                gameScreen.classList.remove('hidden');
-                
-                gameMusic.play();
-            }, 1000); 
-        }
-    
-        
-        cutsceneVideo.addEventListener('ended', playNextCutscene);
+        cutsceneVideo.addEventListener('ended', fadeOutAndTransition);
+
+function fadeOutAndTransition() {
+    cutsceneScreen.classList.add('fade-out');
+    setTimeout(() => {
+        cutsceneScreen.classList.add('hidden');
+        gameScreen.classList.remove('hidden');
+        gameMusic.play();
+    }, 1000);
+}
+
+function startGame() {
+    homeScreen.classList.add('hidden');
+    optionsScreen.classList.add('hidden');
+    cutsceneScreen.classList.remove('hidden');
+    gameMusic.pause();
+    cutsceneVideo.src = "cutscenes/edited/cutscene1.mp4";
+    cutsceneVideo.load();
+    cutsceneVideo.play();
+}
+
+function skipCutscene() {
+    cutsceneVideo.pause();
+    fadeOutAndTransition();
+}
+
+function showOptions() {
+    homeScreen.classList.add('hidden');
+    optionsScreen.classList.remove('hidden');
+}
+
+function goBackToHome() {
+    optionsScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+}
+
+function lookOutside() {
+    gameScreen.classList.add('hidden');
+    lookOutsideScreen.classList.remove('hidden');
+}
+
+function goBackToGame() {
+    lookOutsideScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+}
     
         function playNextCutscene() {
             alert("not yet");
