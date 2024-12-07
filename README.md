@@ -1,3 +1,4 @@
+# please use https://github.com/Freakybob-Team-Games/murderbobadvanced
 # MurderBob ADVANCED
 
 The fucking best game in the world 
